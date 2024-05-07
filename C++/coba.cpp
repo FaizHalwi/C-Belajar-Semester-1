@@ -1,0 +1,94 @@
+// INVENTARIS PRODUK
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Batas maksimum jumlah produk dalam inventaris
+const int MAX_INVENTARIS = 100;
+
+// Struktur data untuk produk
+struct Produk {
+    string nama;
+    double harga;
+    int stok;
+};
+
+int main() {
+    Produk inventaris[MAX_INVENTARIS];
+    int jumlahProduk = 0;
+    int pilihan;
+
+    do {
+        cout << "=== Inventaris Toko ===" << endl;
+        cout << "1. Tambah Produk" << endl;
+        cout << "2. Hapus Produk" << endl;
+        cout << "3. Lihat Inventaris" << endl;
+        cout << "4. Keluar" << endl;
+        cout << "Pilih angka (1/2/3/4): ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                if (jumlahProduk < MAX_INVENTARIS) {
+                    cout << "Nama Produk: ";
+                    cin.ignore();
+                    getline(cin, inventaris[jumlahProduk].nama);
+                    cout << "Harga Produk: ";
+                    cin >> inventaris[jumlahProduk].harga;
+                    cout << "Stok Produk: ";
+                    cin >> inventaris[jumlahProduk].stok;
+                    jumlahProduk++;
+                    cout << "Produk telah ditambahkan ke inventaris." << endl;
+                } else {
+                    cout << "Inventaris penuh. Tidak dapat menambahkan produk baru." << endl;
+                }
+                break;
+            case 2:
+                if (jumlahProduk > 0) {
+                    string namaProduk;
+                    cout << "Masukkan nama produk yang ingin dihapus: ";
+                    cin.ignore();
+                    getline(cin, namaProduk);
+
+                    bool ditemukan = false;
+                    for (int i = 0; i < jumlahProduk; i++) {
+                        if (inventaris[i].nama == namaProduk) {
+                            for (int j = i; j < jumlahProduk - 1; j++) {
+                                inventaris[j] = inventaris[j + 1];
+                            }
+                            jumlahProduk--;
+                            cout << "Produk \"" << namaProduk << "\" telah dihapus." << endl;
+                            ditemukan = true;
+                            break;
+                        }
+                    }
+
+                    if (!ditemukan) {
+                        cout << "Produk dengan nama \"" << namaProduk << "\" tidak ditemukan." << endl;
+                    }
+                } else {
+                    cout << "Belum ada data! lebih di perhatikan penamaan produk" << endl;
+                }
+                break;
+            case 3:
+                cout << "=== Inventaris Toko ===" << endl;
+                if (jumlahProduk == 0) {
+                    cout << "Belum ada data." << endl;
+                } else {
+                    for (int i = 0; i < jumlahProduk; i++) {
+                        cout << "Nama Produk: " << inventaris[i].nama << ", Harga: " << inventaris[i].harga << ", Stok: " << inventaris[i].stok << endl;
+                    }
+                }
+                break;
+            case 4:
+                cout << "Terima kasih! Anda keluar dari program." << endl;
+                break;
+            default:
+                cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
+        }
+    } while (pilihan != 4);
+
+    return 0;
+}
